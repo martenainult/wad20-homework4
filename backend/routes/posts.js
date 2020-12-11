@@ -27,10 +27,7 @@ router.post('/', authorize,  (request, response) => {
 
     console.log(request.body)
     let text = request.body.text;
-    let media = request.body.media.url;
-    let type = request.body.media.type;
-
-    //console.log(text, media, type);
+    let media = request.body.media
 
     if (!text && !media) {
         response.json({
@@ -40,7 +37,7 @@ router.post('/', authorize,  (request, response) => {
         return;
     }
 
-    if (media && type === null) {
+    if (media && media.type === null) {
         response.json({
             code: 'missing media type',
             message: 'Choose the media type of URL'
