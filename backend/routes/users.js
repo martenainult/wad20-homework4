@@ -3,9 +3,12 @@ const router = express.Router();
 const authorize = require('../middlewares/authorize');
 const UserModel = require('../models/UserModel');
 const FollowModel = require('../models/FollowModel');
+const jwt = require("../library/jwt");
 
 // Public endpoints
 router.post('/', (request, response) => {
+
+    //console.log(request.token)
 
     let form = {
         email: {required: true},
@@ -79,13 +82,18 @@ router.post('/login', (request, response) => {
             return;
         }
 
+        let payload = {
+            user,
+            rights: "general"
+        }
+
         response.json({
             id: user.id,
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,
             avatar: user.avatar,
-            accessToken: null // THis is the place where you should pass generated access token
+            //accessToken: jwt.createAccessToken(payload) // This is the place where you should pass generated access token
         })
     });
 });
@@ -101,6 +109,7 @@ router.get('/', authorize, (request, response) => {
 router.post('/:userId/follows', authorize, (request, response) => {
 
     //To get currently logged in user object use request.currentUser
+    //console.log(request.currentUser)
 
     let userId = request.params.userId;
     let followerId = request.currentUser.id;

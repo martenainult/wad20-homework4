@@ -24,10 +24,9 @@ router.get('/', authorize, (request, response) => {
 
 router.post('/', authorize,  (request, response) => {
     // Endpoint to create a new post
-
-    console.log(request.body)
     let text = request.body.text;
     let media = request.body.media
+    console.log(media)
 
     if (!text && !media) {
         response.json({
@@ -37,11 +36,22 @@ router.post('/', authorize,  (request, response) => {
         return;
     }
 
-    if (media && media.type === null) {
-        response.json({
+    // We have media url, but not it's type
+    if (media.url && !media.type) {
+        response.status(400).json({
             code: 'missing media type',
             message: 'Choose the media type of URL'
-        }, 400)
+        })
+        return;
+    }
+
+    // We have chosen media type but don't have media url
+    if (!media.url && media.type) {
+        response.status(400).json({
+            code: 'missing media type',
+            message: 'Choose the media type of URL'
+        })
+        return;
     }
 
     let post = {

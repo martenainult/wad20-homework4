@@ -16,7 +16,6 @@ module.exports = (request, response, next) => {
         });
     } else {
         // if there is no authorization header
-
         return response.status(403).json({
             message: 'Invalid token'
         });
