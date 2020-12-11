@@ -10,9 +10,6 @@ const PostModel = {
             params.media.type,
             params.media.url
         ];
-        console.log(params)
-        console.log(data)
-
         return query(statement, data, callback);
     },
 

@@ -60,6 +60,9 @@ router.post('/', authorize,  (request, response) => {
 router.put('/:postId/likes', authorize, (request, response) => {
 
     // Endpoint for current user to like a post
+
+
+
 });
 
 router.delete('/:postId/likes', authorize, (request, response) => {
