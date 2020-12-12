@@ -103,4 +103,19 @@ describe('Posts', () => {
     it('1 == 1', function () {
         expect(true).toBe(true)
     });
+
+    it("Exactly as many posts are rendered are contained in testData variable", function () {
+        const posts = wrapper.findAll('.post')
+        expect(posts.length).toBe(testData.length)
+    });
+
+
+    it('Image or video tags are rendered depending on media.type property ' +
+        'or if media property is absent nothing is rendered', function () {
+        //TODO
+    });
+
+    it('Post create time is displayed in correct format', function () {
+        expect(wrapper.find('.post-author > small').text()).toBe("Saturday, December 5, 2020 1:53 PM")
+    });
 });
