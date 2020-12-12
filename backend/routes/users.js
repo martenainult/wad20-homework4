@@ -8,8 +8,6 @@ const jwt = require("../library/jwt");
 // Public endpoints
 router.post('/', (request, response) => {
 
-    //console.log(request.token)
-
     let form = {
         email: {required: true},
         password: {required: true},
@@ -81,11 +79,12 @@ router.post('/login', (request, response) => {
             response.status(404).json(invalidCredentials);
             return;
         }
-
-        let payload = {
-            user,
-            rights: "general"
-        }
+        let payl = {
+            id: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            access: "general"
+        };
 
         response.json({
             id: user.id,
@@ -93,7 +92,7 @@ router.post('/login', (request, response) => {
             lastname: user.lastname,
             email: user.email,
             avatar: user.avatar,
-            //accessToken: jwt.createAccessToken(payload) // This is the place where you should pass generated access token
+            accessToken: jwt.createAccessToken(payl) // THis is the place where you should pass generated access token
         })
     });
 });
@@ -109,7 +108,6 @@ router.get('/', authorize, (request, response) => {
 router.post('/:userId/follows', authorize, (request, response) => {
 
     //To get currently logged in user object use request.currentUser
-    //console.log(request.currentUser)
 
     let userId = request.params.userId;
     let followerId = request.currentUser.id;
