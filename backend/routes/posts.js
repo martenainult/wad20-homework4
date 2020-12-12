@@ -25,23 +25,23 @@ router.get('/', authorize, (request, response) => {
 router.post('/', authorize,  (request, response) => {
     // Endpoint to create a new post
 
-    console.log(request.body)
     let text = request.body.text;
     let media = request.body.media
 
     if (!text && !media) {
-        response.json({
+        response.status(406).json({
             code: 'missing post entries',
             message: 'Cannot submit empty post. Enter text, media, or both'
-        }, 400)
+        })
         return;
     }
 
-    if (media && media.type === null) {
-        response.json({
+    if (media.url && media.type === null) {
+        response.status(401).json({
             code: 'missing media type',
             message: 'Choose the media type of URL'
-        }, 400)
+        })
+        return;
     }
 
     let post = {
