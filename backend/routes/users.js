@@ -8,7 +8,7 @@ const jwt = require("../library/jwt");
 // Public endpoints
 router.post('/', (request, response) => {
 
-    //console.log(request.token)
+    console.log(request.token)
 
     let form = {
         email: {required: true},
