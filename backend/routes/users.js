@@ -8,11 +8,9 @@ const jwt = require("../library/jwt");
 // Public endpoints
 router.post('/', (request, response) => {
 
-<<<<<<< HEAD
+
     console.log(request.token)
 
-=======
->>>>>>> 3a8aba8c194fa2e470426e9a4c8ce10e686756ea
     let form = {
         email: {required: true},
         password: {required: true},
