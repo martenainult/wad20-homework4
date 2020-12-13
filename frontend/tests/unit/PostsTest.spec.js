@@ -2,6 +2,7 @@ import {mount, createLocalVue} from '@vue/test-utils'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import Posts from "../../src/components/Posts.vue";
+import moment from 'moment';
 
 const localVue = createLocalVue();
 
@@ -112,10 +113,28 @@ describe('Posts', () => {
 
     it('Image or video tags are rendered depending on media.type property ' +
         'or if media property is absent nothing is rendered', function () {
-        //TODO
+        const posts = wrapper.findAll('.post');
+        for (let i = 0; i < posts.length; i++) {
+            const testDataMedia = testData[i].media
+            if (testDataMedia) {
+                if (testDataMedia.type === "image") {
+                   expect(posts.at(i).find('.post-image').find('img').exists()).toBe(true);
+                } else if (testDataMedia.type == "video") {
+                    expect(posts.at(i).find('.post-image').find('video').exists()).toBe(true);
+                }
+            } else {
+                expect(posts.at(i).find(".post-image").exists()).toBe(false);
+            }
+
+        }
     });
 
     it('Post create time is displayed in correct format', function () {
-        expect(wrapper.find('.post-author > small').text()).toBe("Saturday, December 5, 2020 1:53 PM")
+        const postauthor = wrapper.findAll('.post post-author small');
+        for (let i = 0; i < postauthor.length; i++){
+            console.log(postauthor.at(i))
+            expect(postauthor.at(i).toEqual(moment(postauthor.at(i)).format('LLLL')));
+        }
+        //expect(wrapper.find('.post-author > small').text()).toBe("Saturday, December 5, 2020 1:53 PM")
     });
 });
