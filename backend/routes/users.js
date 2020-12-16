@@ -82,6 +82,8 @@ router.post('/login', (request, response) => {
             response.status(404).json(invalidCredentials);
             return;
         }
+
+        // Create a payload, which contains needed information about logged in user
         let payl = {
             id: user.id,
             firstname: user.firstname,
@@ -95,12 +97,13 @@ router.post('/login', (request, response) => {
             lastname: user.lastname,
             email: user.email,
             avatar: user.avatar,
+            // Create a token for logged in user, which is sent with important route access
             accessToken: jwt.createAccessToken(payl) // THis is the place where you should pass generated access token
         })
     });
 });
 
-// Protected endpoints
+// Protected endpoints. Make sure user is logged in and authorized
 router.get('/', authorize, (request, response) => {
 
     UserModel.getAll(request.currentUser.id, (users) => {
@@ -108,6 +111,7 @@ router.get('/', authorize, (request, response) => {
     });
 });
 
+// follow user with id. Make sure user is logged in and authorized
 router.post('/:userId/follows', authorize, (request, response) => {
 
     //To get currently logged in user object use request.currentUser

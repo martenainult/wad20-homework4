@@ -26,8 +26,8 @@ router.post('/', authorize,  (request, response) => {
     // Endpoint to create a new post
     let text = request.body.text;
     let media = request.body.media
-    console.log(media)
 
+    // Send alert that entry fields are empty
     if (!text && !media) {
         response.json({
             code: 'missing post entries',
@@ -54,6 +54,7 @@ router.post('/', authorize,  (request, response) => {
         return;
     }
 
+    // Create post json to create it and send response
     let post = {
         userId: request.currentUser.id,
         text,
@@ -66,14 +67,14 @@ router.post('/', authorize,  (request, response) => {
 
 });
 
-
+// Post a like for certain post
 router.put('/:postId/likes', authorize, (request, response) => {
     // Endpoint for current user to like a post
     PostModel.like(request.currentUser.id, request.params.postId, (like) => {
         response.status(201).json(like)
     });
 });
-
+// Remove like
 router.delete('/:postId/likes', authorize, (request, response) => {
     // Endpoint for current user to unlike a post
     PostModel.unlike(request.currentUser.id, request.params.postId, (unlike) => {

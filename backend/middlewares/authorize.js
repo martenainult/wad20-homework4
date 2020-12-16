@@ -10,7 +10,9 @@ module.exports = (request, response, next) => {
         decoded user from access token.
     */
 
+    // Remove the "Bearer" head from header
     let token = request.headers.authorization.split(" ")[1]
+    // Check if request senders token is valid
     let veriffic = jwt.verifyAccessToken(token)
 
     if (veriffic) {
